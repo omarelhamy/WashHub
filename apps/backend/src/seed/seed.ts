@@ -58,11 +58,11 @@ async function seed() {
   const notificationRepo = ds.getRepository(Notification);
 
   // —— Super Admin ——
-  let superAdmin = await platformUserRepo.findOne({ where: { email: 'admin@lamma3.com' } });
+  let superAdmin = await platformUserRepo.findOne({ where: { email: 'admin@washhub.com' } });
   if (!superAdmin) {
     const hash = await bcrypt.hash('admin123', SALT_ROUNDS);
     superAdmin = await platformUserRepo.save(
-      platformUserRepo.create({ email: 'admin@lamma3.com', passwordHash: hash }),
+      platformUserRepo.create({ email: 'admin@washhub.com', passwordHash: hash }),
     );
     console.log('Created Super Admin');
   }
@@ -418,7 +418,7 @@ async function seed() {
   // —— Print credentials ——
   console.log('\n========== SEED CREDENTIALS (use these to log in) ==========\n');
   console.log('Super Admin (full access):');
-  console.log('  Email:    admin@lamma3.com');
+  console.log('  Email:    admin@washhub.com');
   console.log('  Password: admin123');
   console.log('  → Login as Super Admin, go to /super\n');
 

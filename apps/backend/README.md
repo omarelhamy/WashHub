@@ -1,4 +1,4 @@
-# Lamma3 Backend
+# WashHub Backend
 
 NestJS API for the Car Wash SaaS platform (Egypt).
 
@@ -19,7 +19,7 @@ NestJS API for the Car Wash SaaS platform (Egypt).
    ```bash
    cp .env.example .env
    ```
-   Edit `.env` and set `DATABASE_URL=postgresql://postgres:postgres@localhost:5432/lamma3`.
+   Edit `.env` and set `DATABASE_URL=postgresql://postgres:postgres@localhost:5432/washhub`.
 
 3. **Install and run**:
    ```bash
@@ -32,7 +32,7 @@ NestJS API for the Car Wash SaaS platform (Egypt).
    ```bash
    npm run seed
    ```
-   Creates: Super Admin `admin@lamma3.com` / `admin123`, Demo Provider, Provider Admin `+201111111111` / `provider123`, Worker `+201000000000` / `worker123`, Client `+201222222222` with car.
+   Creates: Super Admin `admin@washhub.com` / `admin123`, Demo Provider, Provider Admin `+201111111111` / `provider123`, Worker `+201000000000` / `worker123`, Client `+201222222222` with car.
 
 ## Env vars
 

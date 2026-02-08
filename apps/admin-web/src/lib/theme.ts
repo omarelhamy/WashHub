@@ -1,4 +1,4 @@
-const THEME_KEY = 'lamma3-theme';
+const THEME_KEY = 'washhub-theme';
 export type Theme = 'dark' | 'light';
 
 export function getTheme(): Theme {

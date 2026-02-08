@@ -4,7 +4,7 @@ import { initReactI18next } from 'react-i18next';
 const resources = {
   en: {
     translation: {
-      app: { title: 'Lamma3 Admin' },
+      app: { title: 'WashHub Admin' },
       nav: { dashboard: 'Dashboard', providers: 'Providers', clients: 'Clients', cars: 'Cars', washJobs: 'Wash Jobs', plans: 'Plans', enrollment: 'Enrollment', payments: 'Payments', clientComments: 'Comments', qr: 'QR / Enroll', tasks: "Today's Tasks", settings: 'Settings', logout: 'Logout' },
       common: {
         loading: 'Loading...',
@@ -22,7 +22,7 @@ const resources = {
         noResults: 'No results yet.',
       },
       pages: {
-        login: { title: 'Sign in', appTitle: 'Lamma3 Admin', subtitle: 'Enter your credentials below to log into your account.', superAdmin: 'Super Admin', provider: 'Provider', login: 'Sign in', signingIn: 'Signing in, please wait…', email: 'Email', phone: 'Phone', providerId: 'Provider ID', password: 'Password' },
+        login: { title: 'Sign in', appTitle: 'WashHub Admin', subtitle: 'Enter your credentials below to log into your account.', superAdmin: 'Super Admin', provider: 'Provider', login: 'Sign in', signingIn: 'Signing in, please wait…', email: 'Email', phone: 'Phone', providerId: 'Provider ID', password: 'Password' },
         superDashboard: { title: 'Super Admin Dashboard', providers: 'Providers', clients: 'Clients', washJobs: 'Wash Jobs', subtitle: 'Manage providers, plans, and view all clients.', clientsSubtitle: 'View all clients across providers.', recentProviders: 'Recent providers' },
         providersList: { title: 'Providers', allProviders: 'All providers', createProvider: 'Create provider', newProvider: 'New provider', name: 'Name', plan: 'Plan', status: 'Status', enabled: 'Enabled', trialEndsAt: 'Trial ends', settings: 'Settings' },
         superClientsList: { title: 'All clients', filterByProvider: 'Filter by provider', provider: 'Provider', name: 'Name', phone: 'Phone' },
@@ -47,7 +47,7 @@ const resources = {
   },
   ar: {
     translation: {
-      app: { title: 'لاما٣ أدمن' },
+      app: { title: 'WashHub أدمن' },
       nav: { dashboard: 'لوحة التحكم', providers: 'مقدمي الخدمة', clients: 'العملاء', cars: 'السيارات', washJobs: 'غسيل السيارات', plans: 'الباقات', enrollment: 'التسجيل في الباقة', payments: 'المدفوعات', clientComments: 'التعليقات', qr: 'QR / التسجيل', tasks: 'مهام اليوم', settings: 'الإعدادات', logout: 'تسجيل الخروج' },
       common: {
         loading: 'جاري التحميل...',
@@ -65,7 +65,7 @@ const resources = {
         noResults: 'لا توجد نتائج بعد.',
       },
       pages: {
-        login: { title: 'تسجيل الدخول', appTitle: 'لاما٣ أدمن', subtitle: 'أدخل بياناتك أدناه لتسجيل الدخول.', superAdmin: 'مدير عام', provider: 'مقدم الخدمة', login: 'تسجيل الدخول', signingIn: 'جاري تسجيل الدخول، الرجاء الانتظار…', email: 'البريد', phone: 'الهاتف', providerId: 'معرف المزود', password: 'كلمة المرور' },
+        login: { title: 'تسجيل الدخول', appTitle: 'WashHub أدمن', subtitle: 'أدخل بياناتك أدناه لتسجيل الدخول.', superAdmin: 'مدير عام', provider: 'مقدم الخدمة', login: 'تسجيل الدخول', signingIn: 'جاري تسجيل الدخول، الرجاء الانتظار…', email: 'البريد', phone: 'الهاتف', providerId: 'معرف المزود', password: 'كلمة المرور' },
         superDashboard: { title: 'لوحة المدير العام', providers: 'مقدمو الخدمة', clients: 'العملاء', washJobs: 'غسيل السيارات', subtitle: 'إدارة المزودين والباقات وعرض جميع العملاء.', clientsSubtitle: 'عرض جميع العملاء عبر المزودين.', recentProviders: 'المزودون الأخيرون' },
         providersList: { title: 'مقدمو الخدمة', allProviders: 'جميع المزودين', createProvider: 'إضافة مزود', newProvider: 'مزود جديد', name: 'الاسم', plan: 'الباقة', status: 'الحالة', enabled: 'مفعّل', trialEndsAt: 'انتهاء التجربة', settings: 'الإعدادات' },
         superClientsList: { title: 'جميع العملاء', filterByProvider: 'تصفية حسب المزود', provider: 'المزود', name: 'الاسم', phone: 'الهاتف' },

@@ -7,7 +7,7 @@
 ## How to run backend
 
 1. Start PostgreSQL: `docker-compose up -d` (from repo root).
-2. Copy env: `cp apps/backend/.env.example apps/backend/.env` (or create `.env` with `DATABASE_URL=postgresql://postgres:postgres@localhost:5432/lamma3`).
+2. Copy env: `cp apps/backend/.env.example apps/backend/.env` (or create `.env` with `DATABASE_URL=postgresql://postgres:postgres@localhost:5432/washhub`).
 3. Run: `cd apps/backend && npm run start:dev`.
 4. Seed (optional): `cd apps/backend && npm run seed`.
 5. Check: `GET http://localhost:3000/health` → `{ "status": "ok", "db": "connected" }`.
@@ -23,7 +23,7 @@
 
 See **apps/backend/SEED_CREDENTIALS.md** for full list. Quick reference:
 
-- **Super Admin:** `admin@lamma3.com` / `admin123`
+- **Super Admin:** `admin@washhub.com` / `admin123`
 - **Provider Admin (Demo):** Phone `+201111111111` / `provider123` — Provider ID from seed output or Super Admin → Providers
 - **Provider Worker (Demo):** Phone `+201000000000` / `worker123` — same Provider ID as Demo
 - **Second Provider (Cairo):** Phone `+202111111111` / `cairo123` — Provider ID from seed output

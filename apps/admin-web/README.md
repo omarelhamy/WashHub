@@ -1,4 +1,4 @@
-# Lamma3 Admin Web
+# WashHub Admin Web
 
 React admin dashboard for Super Admin, Provider Admin, and Worker roles.
 
@@ -21,7 +21,7 @@ React admin dashboard for Super Admin, Provider Admin, and Worker roles.
    App runs at `http://localhost:5173`.
 
 3. **Login:**
-   - **Super Admin:** email + password (e.g. after seed: `admin@lamma3.com` / `admin123`).
+   - **Super Admin:** email + password (e.g. after seed: `admin@washhub.com` / `admin123`).
    - **Provider:** phone + password + providerId (e.g. after seed: `+201111111111` / `provider123` and provider ID from backend).
    - **Worker:** same as Provider with a worker account (e.g. `+201000000000` / `worker123`).
 

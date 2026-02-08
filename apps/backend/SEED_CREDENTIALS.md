@@ -8,7 +8,7 @@ Use these to log into the **Admin Web** at `http://localhost:5173`.
 
 | Field    | Value              |
 |----------|--------------------|
-| Email    | `admin@lamma3.com` |
+| Email    | `admin@washhub.com` |
 | Password | `admin123`         |
 
 **Login:** Super Admin → redirects to `/super` (dashboard, providers list).
