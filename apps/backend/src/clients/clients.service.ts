@@ -31,11 +31,12 @@ export class ClientsService {
     return { items, total, page, limit };
   }
 
-  /** Super admin: list all clients, optionally filtered by providerId */
+  /** Super admin: list all clients, optionally filtered by providerId; includes carsCount */
   async findAllForSuperAdmin(providerId: string | undefined, page = 1, limit = 50) {
     const qb = this.repo
       .createQueryBuilder('c')
       .leftJoinAndSelect('c.provider', 'provider')
+      .loadRelationCountAndMap('c.carsCount', 'c.cars')
       .orderBy('c.createdAt', 'DESC')
       .skip((page - 1) * limit)
       .take(limit);

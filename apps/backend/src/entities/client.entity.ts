@@ -31,6 +31,9 @@ export class Client {
   @Column({ type: 'varchar', length: 50 })
   phone: string;
 
+  @Column({ type: 'text', nullable: true })
+  address: string | null;
+
   @Column({ name: 'enrolled_at', type: 'timestamptz', nullable: true })
   enrolledAt: Date | null;
 

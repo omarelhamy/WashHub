@@ -94,6 +94,7 @@ export default function Layout() {
               <NavLink to="/super" icon={LayoutDashboard}>{t('nav.dashboard')}</NavLink>
               <NavLink to="/super/providers" icon={Building2}>{t('nav.providers')}</NavLink>
               <NavLink to="/super/clients" icon={Users}>{t('nav.clients')}</NavLink>
+              <NavLink to="/super/plans" icon={Package}>{t('nav.plans')}</NavLink>
               <NavLink to="/super/settings" icon={Settings}>{t('nav.settings')}</NavLink>
             </>
           )}
@@ -106,7 +107,7 @@ export default function Layout() {
                   <NavLink to="/provider/clients" icon={Users}>{t('nav.clients')}</NavLink>
                   <NavLink to="/provider/cars" icon={Car}>{t('nav.cars')}</NavLink>
                   <NavLink to="/provider/wash-jobs" icon={ClipboardList}>{t('nav.washJobs')}</NavLink>
-                  <NavLink to="/provider/wash-plans" icon={Package}>{t('nav.plans')}</NavLink>
+                  <NavLink to="/provider/wash-plans" icon={Package}>{t('nav.washPlans')}</NavLink>
                   <NavLink to="/provider/enrollment" icon={UserPlus}>{t('nav.enrollment')}</NavLink>
                   <NavLink to="/provider/payments" icon={CreditCard}>{t('nav.payments')}</NavLink>
                   <NavLink to="/provider/client-comments" icon={MessageSquare}>{t('nav.clientComments')}</NavLink>
@@ -145,7 +146,7 @@ export default function Layout() {
             {t('nav.logout')}
           </Button>
         </header>
-        <main className="flex-1 p-6 overflow-auto">
+        <main className="flex-1 min-h-0 overflow-auto bg-gradient-to-b from-primary/5 via-background to-background p-5 sm:p-6 lg:p-8">
           <Outlet />
         </main>
       </div>

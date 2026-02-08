@@ -43,7 +43,12 @@ export class WashPlansController {
     @Query('limit') limit?: string,
     @Req() req?: { user: JwtPayload },
   ) {
-    const pid = providerId || (req?.user && getProviderIdFromUser(req.user));
+    const user = req?.user;
+    const pid = providerId || (user && getProviderIdFromUser(user));
+    const isSuperAdmin = user?.type === 'SUPER_ADMIN';
+    if (isSuperAdmin) {
+      return this.service.findAllForSuperAdmin(pid || undefined, page ? parseInt(page, 10) : 1, limit ? parseInt(limit, 10) : 100);
+    }
     if (!pid) throw new Error('providerId required');
     return this.service.findAll(pid, page ? parseInt(page, 10) : 1, limit ? parseInt(limit, 10) : 20);
   }

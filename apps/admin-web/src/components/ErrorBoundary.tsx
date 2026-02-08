@@ -25,20 +25,24 @@ export default class ErrorBoundary extends Component<Props, State> {
     if (this.state.hasError) {
       if (this.props.fallback) return this.props.fallback;
       return (
-        <div className="min-h-[40vh] flex flex-col items-center justify-center gap-4 p-6">
-          <h2 className="text-xl font-semibold text-foreground">Something went wrong</h2>
+        <div className="min-h-[40vh] flex flex-col items-center justify-center gap-5 p-6 bg-gradient-to-b from-primary/5 via-background to-background">
+          <h2 className="text-2xl font-bold tracking-tight text-foreground">Something went wrong</h2>
           <p className="text-muted-foreground text-sm text-center max-w-md">
             {this.state.error?.message ?? 'An unexpected error occurred.'}
           </p>
-          <Button
-            variant="outline"
-            onClick={() => this.setState({ hasError: false, error: undefined })}
-          >
-            Try again
-          </Button>
-          <Button variant="ghost" onClick={() => window.location.href = '/'}>
-            Go to login
-          </Button>
+          <div className="flex flex-wrap items-center justify-center gap-3">
+            <Button
+              variant="outline"
+              size="lg"
+              className="rounded-xl"
+              onClick={() => this.setState({ hasError: false, error: undefined })}
+            >
+              Try again
+            </Button>
+            <Button variant="default" size="lg" className="rounded-xl" onClick={() => window.location.href = '/'}>
+              Go to login
+            </Button>
+          </div>
         </div>
       );
     }

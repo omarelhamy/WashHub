@@ -5,7 +5,6 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { ListPageSkeleton } from '@/components/ListPageSkeleton';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
 import {
   Select,
   SelectContent,
@@ -14,6 +13,10 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
+import { Link } from 'react-router-dom';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { Eye, Pencil, Trash2 } from 'lucide-react';
+import { toast } from 'sonner';
 
 interface Client {
   id: string;
@@ -21,6 +24,7 @@ interface Client {
   phone: string;
   providerId: string;
   provider?: { id: string; name: string };
+  carsCount?: number;
 }
 
 interface ProviderOption {
@@ -30,7 +34,26 @@ interface ProviderOption {
 
 export default function SuperClientsList() {
   const { t } = useTranslation();
+  const queryClient = useQueryClient();
   const [providerId, setProviderId] = useState<string>('');
+
+  const deleteMutation = useMutation({
+    mutationFn: async ({ id, providerId: pid }: { id: string; providerId: string }) => {
+      await api.delete(`/clients/${id}?providerId=${pid}`);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['super-clients'] });
+      toast.success(t('pages.superClientsList.removeSuccess'));
+    },
+    onError: (err: { response?: { data?: { message?: string } } }) => {
+      toast.error(err?.response?.data?.message ?? 'Failed to remove client');
+    },
+  });
+
+  const handleRemove = (c: Client) => {
+    if (!confirm(t('pages.superClientsList.confirmRemove'))) return;
+    deleteMutation.mutate({ id: c.id, providerId: c.providerId });
+  };
 
   const { data: providers } = useQuery({
     queryKey: ['providers'],
@@ -53,11 +76,13 @@ export default function SuperClientsList() {
   if (isLoading) return <ListPageSkeleton rows={8} cols={4} />;
 
   return (
-    <div className="space-y-6">
-      <h1 className="text-2xl font-bold">{t('pages.superClientsList.title')}</h1>
+    <div className="space-y-6 lg:space-y-8">
+      <header>
+        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground">{t('pages.superClientsList.title')}</h1>
+      </header>
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-base">{t('pages.superClientsList.filterByProvider')}</CardTitle>
+          <CardTitle className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">{t('pages.superClientsList.filterByProvider')}</CardTitle>
           <Select value={providerId || 'all'} onValueChange={(v) => setProviderId(v === 'all' ? '' : v)}>
             <SelectTrigger className="w-[200px]">
               <SelectValue placeholder={t('pages.superClientsList.filterByProvider')} />
@@ -79,7 +104,8 @@ export default function SuperClientsList() {
                 <TableHead>{t('pages.superClientsList.name')}</TableHead>
                 <TableHead>{t('pages.superClientsList.phone')}</TableHead>
                 <TableHead>{t('pages.superClientsList.provider')}</TableHead>
-                <TableHead></TableHead>
+                <TableHead>{t('pages.superClientsList.cars')}</TableHead>
+                <TableHead className="w-[140px]">{t('pages.superClientsList.actions')}</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -87,19 +113,31 @@ export default function SuperClientsList() {
                 <TableRow key={c.id}>
                   <TableCell>{c.name}</TableCell>
                   <TableCell>{c.phone}</TableCell>
+                  <TableCell>{c.provider?.name ?? c.providerId}</TableCell>
+                  <TableCell>{typeof c.carsCount === 'number' ? c.carsCount : '—'}</TableCell>
                   <TableCell>
-                    {c.provider ? (
-                      <Link to={`/super/providers/${c.provider.id}`} className="text-primary hover:underline">
-                        {c.provider.name}
-                      </Link>
-                    ) : (
-                      c.providerId
-                    )}
-                  </TableCell>
-                  <TableCell>
-                    <Button variant="ghost" size="sm" asChild>
-                      <Link to={`/super/providers/${c.providerId}`}>{t('common.viewAll')}</Link>
-                    </Button>
+                    <div className="flex items-center gap-1">
+                      <Button variant="ghost" size="icon" className="size-8" asChild title={t('pages.superClientsList.viewDetails')}>
+                        <Link to={`/super/clients/${c.id}?providerId=${c.providerId}`}>
+                          <Eye className="size-4" aria-hidden />
+                        </Link>
+                      </Button>
+                      <Button variant="ghost" size="icon" className="size-8" asChild title={t('pages.superClientsList.edit')}>
+                        <Link to={`/super/clients/${c.id}/edit?providerId=${c.providerId}`}>
+                          <Pencil className="size-4" aria-hidden />
+                        </Link>
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="size-8 text-destructive hover:text-destructive"
+                        title={t('pages.superClientsList.remove')}
+                        onClick={() => handleRemove(c)}
+                        disabled={deleteMutation.isPending}
+                      >
+                        <Trash2 className="size-4" aria-hidden />
+                      </Button>
+                    </div>
                   </TableCell>
                 </TableRow>
               ))}

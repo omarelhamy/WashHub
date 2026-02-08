@@ -9,6 +9,10 @@ export class CreateClientDto {
 
   @IsOptional()
   @IsString()
+  address?: string;
+
+  @IsOptional()
+  @IsString()
   enrollmentCode?: string;
 
   @IsString()

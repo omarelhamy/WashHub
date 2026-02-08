@@ -35,13 +35,16 @@ export default function SuperDashboard() {
   if (isLoading) return <DashboardSkeleton />;
 
   return (
-    <div className="space-y-6">
-      <h1 className="text-2xl font-bold">{t('pages.superDashboard.title')}</h1>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <div className="space-y-6 lg:space-y-8">
+      <header>
+        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground">{t('pages.superDashboard.title')}</h1>
+        <p className="text-muted-foreground text-sm sm:text-base mt-2">{t('pages.superDashboard.subtitle')}</p>
+      </header>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-6">
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
-              <Building2 className="size-4" /> {t('pages.superDashboard.providers')}
+            <CardTitle className="text-sm font-semibold uppercase tracking-wider text-muted-foreground flex items-center gap-2">
+              <Building2 className="size-4 text-primary" /> {t('pages.superDashboard.providers')}
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -50,8 +53,8 @@ export default function SuperDashboard() {
         </Card>
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
-              <Users className="size-4" /> {t('pages.superDashboard.clients')}
+            <CardTitle className="text-sm font-semibold uppercase tracking-wider text-muted-foreground flex items-center gap-2">
+              <Users className="size-4 text-primary" /> {t('pages.superDashboard.clients')}
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -60,8 +63,8 @@ export default function SuperDashboard() {
         </Card>
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
-              <ClipboardList className="size-4" /> {t('pages.superDashboard.washJobs')}
+            <CardTitle className="text-sm font-semibold uppercase tracking-wider text-muted-foreground flex items-center gap-2">
+              <ClipboardList className="size-4 text-primary" /> {t('pages.superDashboard.washJobs')}
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -69,14 +72,14 @@ export default function SuperDashboard() {
           </CardContent>
         </Card>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-6">
         <Card>
           <CardHeader>
-            <CardTitle className="text-base">{t('nav.providers')}</CardTitle>
+            <CardTitle className="text-base font-semibold">{t('nav.providers')}</CardTitle>
           </CardHeader>
-          <CardContent className="space-y-2">
+          <CardContent className="space-y-3">
             <p className="text-sm text-muted-foreground">{t('pages.superDashboard.subtitle')}</p>
-            <Button asChild variant="default" className="w-full sm:w-auto">
+            <Button asChild size="lg" className="w-full sm:w-auto rounded-xl">
               <Link to="/super/providers">
                 {t('common.viewAll')} <ArrowRight className="ml-2 size-4" />
               </Link>
@@ -85,11 +88,11 @@ export default function SuperDashboard() {
         </Card>
         <Card>
           <CardHeader>
-            <CardTitle className="text-base">{t('nav.clients')}</CardTitle>
+            <CardTitle className="text-base font-semibold">{t('nav.clients')}</CardTitle>
           </CardHeader>
-          <CardContent className="space-y-2">
+          <CardContent className="space-y-3">
             <p className="text-sm text-muted-foreground">{t('pages.superDashboard.clientsSubtitle')}</p>
-            <Button asChild variant="default" className="w-full sm:w-auto">
+            <Button asChild size="lg" className="w-full sm:w-auto rounded-xl">
               <Link to="/super/clients">
                 {t('common.viewAll')} <ArrowRight className="ml-2 size-4" />
               </Link>
@@ -100,13 +103,13 @@ export default function SuperDashboard() {
       {(providers?.items?.length ?? 0) > 0 && (
         <Card>
           <CardHeader>
-            <CardTitle className="text-base">{t('pages.superDashboard.recentProviders')}</CardTitle>
+            <CardTitle className="text-base font-semibold">{t('pages.superDashboard.recentProviders')}</CardTitle>
           </CardHeader>
           <CardContent>
             <ul className="space-y-2">
               {(providers?.items ?? []).slice(0, 5).map((p) => (
                 <li key={p.id}>
-                  <Link to={`/super/providers/${p.id}`} className="text-primary hover:underline flex items-center gap-2">
+                  <Link to={`/super/providers/${p.id}`} className="text-primary hover:underline flex items-center gap-2 font-medium">
                     {p.name} <ArrowRight className="size-3" />
                   </Link>
                 </li>

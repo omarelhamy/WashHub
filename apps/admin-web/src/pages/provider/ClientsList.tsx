@@ -29,11 +29,14 @@ export default function ClientsList() {
   if (isLoading) return <ListPageSkeleton rows={5} cols={3} />;
 
   return (
-    <div className="space-y-6">
-      <h1 className="text-2xl font-bold">Clients</h1>
+    <div className="space-y-6 lg:space-y-8">
+      <header>
+        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground">{t('pages.clientsList.title')}</h1>
+        <p className="text-muted-foreground text-sm mt-2">{t('pages.clientsList.allClients')}</p>
+      </header>
       <Card>
         <CardHeader>
-          <CardTitle>All clients</CardTitle>
+          <CardTitle className="text-base font-semibold">{t('pages.clientsList.allClients')}</CardTitle>
         </CardHeader>
         <CardContent>
           <Table>

@@ -1,9 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { WashPlan } from '../entities/wash-plan.entity';
-import { ClientWashPlan } from '../entities/client-wash-plan.entity';
-import { ClientWashPlanStatus } from '../entities/client-wash-plan.entity';
+import { WashPlan, WashPlanLocation } from '../entities/wash-plan.entity';
+import { ClientWashPlan, ClientWashPlanStatus } from '../entities/client-wash-plan.entity';
 import { CreateWashPlanDto } from './dto/create-wash-plan.dto';
 import { UpdateWashPlanDto } from './dto/update-wash-plan.dto';
 
@@ -18,11 +17,11 @@ export class WashPlansService {
 
   async create(dto: CreateWashPlanDto, providerId: string) {
     const plan = this.planRepo.create({
-      providerId: providerId || dto.providerId,
+      providerId: providerId || (dto.providerId as string),
       name: dto.name,
       daysOfWeek: dto.daysOfWeek,
       timesPerWeek: dto.timesPerWeek,
-      location: dto.location as any,
+      location: dto.location as WashPlanLocation,
       washesInPlan: dto.washesInPlan,
       periodWeeks: dto.periodWeeks ?? null,
     });
@@ -39,14 +38,43 @@ export class WashPlansService {
     return { items, total, page, limit };
   }
 
+  async findAllForSuperAdmin(providerId: string | undefined, page = 1, limit = 100) {
+    const qb = this.planRepo
+      .createQueryBuilder('p')
+      .leftJoinAndSelect('p.provider', 'provider')
+      .orderBy('p.createdAt', 'DESC')
+      .skip((page - 1) * limit)
+      .take(limit);
+    if (providerId) qb.where('p.providerId = :providerId', { providerId });
+    const [items, total] = await qb.getManyAndCount();
+    return { items, total, page, limit };
+  }
+
   async findOne(id: string, providerId: string) {
     const plan = await this.planRepo.findOne({ where: { id, providerId } });
     if (!plan) throw new NotFoundException('Wash plan not found');
     return plan;
   }
 
+  async update(id: string, providerId: string, dto: UpdateWashPlanDto) {
+    const plan = await this.findOne(id, providerId);
+    if (dto.name != null) plan.name = dto.name;
+    if (dto.daysOfWeek != null) plan.daysOfWeek = dto.daysOfWeek;
+    if (dto.timesPerWeek != null) plan.timesPerWeek = dto.timesPerWeek;
+    if (dto.location != null) plan.location = dto.location as WashPlanLocation;
+    if (dto.washesInPlan != null) plan.washesInPlan = dto.washesInPlan;
+    if (dto.periodWeeks !== undefined) plan.periodWeeks = dto.periodWeeks;
+    return this.planRepo.save(plan);
+  }
+
+  async remove(id: string, providerId: string) {
+    const plan = await this.findOne(id, providerId);
+    await this.planRepo.remove(plan);
+    return { deleted: true };
+  }
+
   async enrollClient(washPlanId: string, clientId: string, providerId: string) {
-    const plan = await this.findOne(washPlanId, providerId);
+    await this.findOne(washPlanId, providerId);
     const existing = await this.enrollmentRepo.findOne({
       where: { washPlanId, clientId },
     });
@@ -74,22 +102,5 @@ export class WashPlansService {
       where: { washPlanId },
       relations: ['client'],
     });
-  }
-
-  async update(id: string, providerId: string, dto: UpdateWashPlanDto) {
-    const plan = await this.findOne(id, providerId);
-    if (dto.name != null) plan.name = dto.name;
-    if (dto.daysOfWeek != null) plan.daysOfWeek = dto.daysOfWeek;
-    if (dto.timesPerWeek != null) plan.timesPerWeek = dto.timesPerWeek;
-    if (dto.location != null) plan.location = dto.location as any;
-    if (dto.washesInPlan != null) plan.washesInPlan = dto.washesInPlan;
-    if (dto.periodWeeks !== undefined) plan.periodWeeks = dto.periodWeeks;
-    return this.planRepo.save(plan);
-  }
-
-  async remove(id: string, providerId: string) {
-    const plan = await this.findOne(id, providerId);
-    await this.planRepo.remove(plan);
-    return { deleted: true };
   }
 }

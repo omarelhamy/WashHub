@@ -5,7 +5,7 @@ const resources = {
   en: {
     translation: {
       app: { title: 'WashHub Admin' },
-      nav: { dashboard: 'Dashboard', providers: 'Providers', clients: 'Clients', cars: 'Cars', washJobs: 'Wash Jobs', plans: 'Plans', enrollment: 'Enrollment', payments: 'Payments', clientComments: 'Comments', qr: 'QR / Enroll', tasks: "Today's Tasks", settings: 'Settings', logout: 'Logout' },
+      nav: { dashboard: 'Dashboard', providers: 'Providers', clients: 'Clients', cars: 'Cars', washJobs: 'Wash Jobs', plans: 'Plans', washPlans: 'Wash Plans', enrollment: 'Enrollment', payments: 'Payments', clientComments: 'Comments', qr: 'QR / Enroll', tasks: "Today's Tasks", settings: 'Settings', logout: 'Logout' },
       common: {
         loading: 'Loading...',
         error: 'Something went wrong',
@@ -22,14 +22,15 @@ const resources = {
         noResults: 'No results yet.',
       },
       pages: {
-        login: { title: 'Sign in', appTitle: 'WashHub Admin', subtitle: 'Enter your credentials below to log into your account.', superAdmin: 'Super Admin', provider: 'Provider', login: 'Sign in', signingIn: 'Signing in, please wait…', email: 'Email', phone: 'Phone', providerId: 'Provider ID', password: 'Password' },
+        login: { title: 'Sign in', titleAdmin: 'Super Admin sign in', titleProvider: 'Provider sign in', subtitle: 'Enter your credentials below to log into your account.', subtitleProvider: 'Sign in with your phone and password.', chooseLogin: 'Choose login', chooseLoginSubtitle: 'Select how you want to sign in.', appTitle: 'WashHub Admin', superAdmin: 'Super Admin', provider: 'Provider', login: 'Sign in', signingIn: 'Signing in, please wait…', email: 'Email', phone: 'Phone', providerId: 'Provider ID', password: 'Password' },
         superDashboard: { title: 'Super Admin Dashboard', providers: 'Providers', clients: 'Clients', washJobs: 'Wash Jobs', subtitle: 'Manage providers, plans, and view all clients.', clientsSubtitle: 'View all clients across providers.', recentProviders: 'Recent providers' },
         providersList: { title: 'Providers', allProviders: 'All providers', createProvider: 'Create provider', newProvider: 'New provider', name: 'Name', plan: 'Plan', status: 'Status', enabled: 'Enabled', trialEndsAt: 'Trial ends', settings: 'Settings' },
-        superClientsList: { title: 'All clients', filterByProvider: 'Filter by provider', provider: 'Provider', name: 'Name', phone: 'Phone' },
+        superClientsList: { title: 'All clients', filterByProvider: 'Filter by provider', provider: 'Provider', name: 'Name', phone: 'Phone', cars: 'Cars', actions: 'Actions', viewDetails: 'View details', edit: 'Edit', remove: 'Remove', confirmRemove: 'Remove this client? This cannot be undone.', removeSuccess: 'Client removed.' },
+        superClientDetail: { backToClients: 'Back to clients', backToClient: 'Back to client', clientDetails: 'Client details', provider: 'Provider', edit: 'Edit', editClient: 'Edit client', remove: 'Remove', confirmRemove: 'Remove this client? This cannot be undone.', removeSuccess: 'Client removed.', updateSuccess: 'Client updated.' },
         superProviderDetail: { title: 'Provider detail', backToProviders: 'Back to providers', clients: 'Clients', washJobs: 'Wash jobs', profit: 'Profit', totalPaid: 'Total paid', totalPending: 'Total pending', schedules: 'Schedules', providerSettings: 'Provider settings', noClients: 'No clients.', noJobs: 'No wash jobs.', editProvider: 'Edit provider', plans: 'Plans', platformInvoice: 'Platform invoice (per car)', platformInvoiceDesc: 'Provider pays per car. Invoice = cars × price per car.', carsCount: 'Cars', pricePerCar: 'Price per car', invoiceTotal: 'Invoice total' },
         editProvider: { billingTitle: 'Billing (per car)', billingDesc: 'Provider pays the platform per car. Set the fixed price per car for this provider. Invoice = number of cars × price per car.', pricePerCar: 'Price per car', billingCurrency: 'Currency' },
         createProvider: { title: 'Create provider', name: 'Name', subscriptionPlan: 'Subscription plan', subscriptionStatus: 'Status', trialEndsAt: 'Trial ends at', enabled: 'Enabled', create: 'Create', pricePerCar: 'Price per car (optional)', billingCurrency: 'Currency' },
-        superPlans: { title: 'Wash plans', selectProvider: 'Select provider', createPlan: 'Create plan', editPlan: 'Edit plan', deletePlan: 'Delete plan', noPlans: 'No plans for this provider.' },
+        superPlans: { title: 'Wash plans', selectProvider: 'Select a provider to manage wash plans.', managePlans: 'Manage plans', createPlan: 'Create plan', editPlan: 'Edit plan', deletePlan: 'Delete plan', noPlans: 'No plans for this provider.' },
         settings: { title: 'Settings', platform: 'Platform settings', providerSettings: 'Provider settings (edit per provider)' },
         providerDashboard: { title: 'Provider Dashboard', clients: 'Clients', todayJobs: "Today's Jobs", pendingPayments: 'Pending Payments', subtitle: 'Use the navigation to manage clients, cars, wash jobs, plans, and payments.' },
         clientsList: { title: 'Clients', allClients: 'All clients', name: 'Name', phone: 'Phone', enrolled: 'Enrolled' },
@@ -48,7 +49,7 @@ const resources = {
   ar: {
     translation: {
       app: { title: 'WashHub أدمن' },
-      nav: { dashboard: 'لوحة التحكم', providers: 'مقدمي الخدمة', clients: 'العملاء', cars: 'السيارات', washJobs: 'غسيل السيارات', plans: 'الباقات', enrollment: 'التسجيل في الباقة', payments: 'المدفوعات', clientComments: 'التعليقات', qr: 'QR / التسجيل', tasks: 'مهام اليوم', settings: 'الإعدادات', logout: 'تسجيل الخروج' },
+      nav: { dashboard: 'لوحة التحكم', providers: 'مقدمي الخدمة', clients: 'العملاء', cars: 'السيارات', washJobs: 'غسيل السيارات', plans: 'الباقات', washPlans: 'باقات الغسيل', enrollment: 'التسجيل في الباقة', payments: 'المدفوعات', clientComments: 'التعليقات', qr: 'QR / التسجيل', tasks: 'مهام اليوم', settings: 'الإعدادات', logout: 'تسجيل الخروج' },
       common: {
         loading: 'جاري التحميل...',
         error: 'حدث خطأ',
@@ -65,14 +66,15 @@ const resources = {
         noResults: 'لا توجد نتائج بعد.',
       },
       pages: {
-        login: { title: 'تسجيل الدخول', appTitle: 'WashHub أدمن', subtitle: 'أدخل بياناتك أدناه لتسجيل الدخول.', superAdmin: 'مدير عام', provider: 'مقدم الخدمة', login: 'تسجيل الدخول', signingIn: 'جاري تسجيل الدخول، الرجاء الانتظار…', email: 'البريد', phone: 'الهاتف', providerId: 'معرف المزود', password: 'كلمة المرور' },
+        login: { title: 'تسجيل الدخول', titleAdmin: 'تسجيل دخول المدير العام', titleProvider: 'تسجيل دخول مقدم الخدمة', subtitle: 'أدخل بياناتك أدناه لتسجيل الدخول.', subtitleProvider: 'سجّل الدخول برقم الهاتف وكلمة المرور.', chooseLogin: 'اختر نوع تسجيل الدخول', chooseLoginSubtitle: 'اختر الطريقة التي تريد تسجيل الدخول بها.', appTitle: 'WashHub أدمن', superAdmin: 'مدير عام', provider: 'مقدم الخدمة', login: 'تسجيل الدخول', signingIn: 'جاري تسجيل الدخول، الرجاء الانتظار…', email: 'البريد', phone: 'الهاتف', providerId: 'معرف المزود', password: 'كلمة المرور' },
         superDashboard: { title: 'لوحة المدير العام', providers: 'مقدمو الخدمة', clients: 'العملاء', washJobs: 'غسيل السيارات', subtitle: 'إدارة المزودين والباقات وعرض جميع العملاء.', clientsSubtitle: 'عرض جميع العملاء عبر المزودين.', recentProviders: 'المزودون الأخيرون' },
         providersList: { title: 'مقدمو الخدمة', allProviders: 'جميع المزودين', createProvider: 'إضافة مزود', newProvider: 'مزود جديد', name: 'الاسم', plan: 'الباقة', status: 'الحالة', enabled: 'مفعّل', trialEndsAt: 'انتهاء التجربة', settings: 'الإعدادات' },
-        superClientsList: { title: 'جميع العملاء', filterByProvider: 'تصفية حسب المزود', provider: 'المزود', name: 'الاسم', phone: 'الهاتف' },
+        superClientsList: { title: 'جميع العملاء', filterByProvider: 'تصفية حسب المزود', provider: 'المزود', name: 'الاسم', phone: 'الهاتف', cars: 'السيارات', actions: 'إجراءات', viewDetails: 'عرض التفاصيل', edit: 'تعديل', remove: 'حذف', confirmRemove: 'حذف هذا العميل؟ لا يمكن التراجع.', removeSuccess: 'تم حذف العميل.' },
+        superClientDetail: { backToClients: 'العودة للعملاء', backToClient: 'العودة للعميل', clientDetails: 'تفاصيل العميل', provider: 'المزود', edit: 'تعديل', editClient: 'تعديل العميل', remove: 'حذف', confirmRemove: 'حذف هذا العميل؟ لا يمكن التراجع.', removeSuccess: 'تم حذف العميل.', updateSuccess: 'تم تحديث العميل.' },
         superProviderDetail: { title: 'تفاصيل المزود', backToProviders: 'العودة للمزودين', clients: 'العملاء', washJobs: 'وظائف الغسيل', profit: 'الأرباح', totalPaid: 'إجمالي المدفوع', totalPending: 'إجمالي المعلق', schedules: 'الجداول', providerSettings: 'إعدادات المزود', noClients: 'لا عملاء.', noJobs: 'لا وظائف غسيل.', editProvider: 'تعديل المزود', plans: 'الباقات', platformInvoice: 'فاتورة المنصة (لكل سيارة)', platformInvoiceDesc: 'المزود يدفع لكل سيارة. الفاتورة = عدد السيارات × السعر لكل سيارة.', carsCount: 'السيارات', pricePerCar: 'السعر لكل سيارة', invoiceTotal: 'إجمالي الفاتورة' },
         editProvider: { billingTitle: 'الفوترة (لكل سيارة)', billingDesc: 'المزود يدفع للمنصة لكل سيارة. حدد السعر الثابت لكل سيارة لهذا المزود. الفاتورة = عدد السيارات × السعر لكل سيارة.', pricePerCar: 'السعر لكل سيارة', billingCurrency: 'العملة' },
         createProvider: { title: 'إضافة مزود', name: 'الاسم', subscriptionPlan: 'باقة الاشتراك', subscriptionStatus: 'الحالة', trialEndsAt: 'انتهاء التجربة', enabled: 'مفعّل', create: 'إنشاء', pricePerCar: 'السعر لكل سيارة (اختياري)', billingCurrency: 'العملة' },
-        superPlans: { title: 'باقات الغسيل', selectProvider: 'اختر المزود', createPlan: 'إضافة باقة', editPlan: 'تعديل الباقة', deletePlan: 'حذف الباقة', noPlans: 'لا باقات لهذا المزود.' },
+        superPlans: { title: 'باقات الغسيل', selectProvider: 'اختر مزوداً لإدارة باقات الغسيل.', managePlans: 'إدارة الباقات', createPlan: 'إضافة باقة', editPlan: 'تعديل الباقة', deletePlan: 'حذف الباقة', noPlans: 'لا باقات لهذا المزود.' },
         settings: { title: 'الإعدادات', platform: 'إعدادات المنصة', providerSettings: 'إعدادات المزود (تعديل لكل مزود)' },
         providerDashboard: { title: 'لوحة مقدم الخدمة', clients: 'العملاء', todayJobs: 'مهام اليوم', pendingPayments: 'المدفوعات المعلقة', subtitle: 'استخدم القائمة لإدارة العملاء والسيارات ووظائف الغسيل والباقات والمدفوعات.' },
         clientsList: { title: 'العملاء', allClients: 'جميع العملاء', name: 'الاسم', phone: 'الهاتف', enrolled: 'مسجل' },

@@ -26,13 +26,16 @@ export default function SettingsPage() {
   if (isLoading) return <ListPageSkeleton rows={5} cols={2} />;
 
   return (
-    <div className="space-y-6">
-      <h1 className="text-2xl font-bold flex items-center gap-2">
-        <Settings className="size-6" /> {t('pages.settings.title')}
-      </h1>
+    <div className="space-y-6 lg:space-y-8">
+      <header className="flex items-center gap-2">
+        <Settings className="size-7 text-primary" />
+        <div>
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground">{t('pages.settings.title')}</h1>
+        </div>
+      </header>
       <Card>
         <CardHeader>
-          <CardTitle className="text-base">{t('pages.settings.platform')}</CardTitle>
+          <CardTitle className="text-base font-semibold">{t('pages.settings.platform')}</CardTitle>
         </CardHeader>
         <CardContent>
           <p className="text-sm text-muted-foreground">
@@ -42,7 +45,7 @@ export default function SettingsPage() {
       </Card>
       <Card>
         <CardHeader>
-          <CardTitle className="text-base">{t('pages.settings.providerSettings')}</CardTitle>
+          <CardTitle className="text-base font-semibold">{t('pages.settings.providerSettings')}</CardTitle>
         </CardHeader>
         <CardContent>
           <p className="text-sm text-muted-foreground mb-4">

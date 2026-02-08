@@ -33,23 +33,27 @@ export default function EnrollmentWizard() {
   const providerId = getProviderId();
   const [selectedPlanId, setSelectedPlanId] = useState<string>('');
 
-  const { data: plans } = useQuery({
+  const { data: plansResponse } = useQuery({
     queryKey: ['wash-plans', providerId],
     queryFn: async () => {
-      const { data } = await api.get<{ items: WashPlan[] }>(`/wash-plans?providerId=${providerId}&limit=100`);
-      return data.items ?? [];
+      const { data } = await api.get<{ items?: WashPlan[] }>(`/wash-plans?providerId=${providerId}&limit=100`);
+      const items = data?.items;
+      return Array.isArray(items) ? items : [];
     },
     enabled: !!providerId,
   });
+  const plans = Array.isArray(plansResponse) ? plansResponse : [];
 
-  const { data: clients } = useQuery({
+  const { data: clientsResponse } = useQuery({
     queryKey: ['clients', providerId],
     queryFn: async () => {
-      const { data } = await api.get<{ items: Client[] }>(`/clients?providerId=${providerId}&limit=500`);
-      return data.items ?? [];
+      const { data } = await api.get<{ items?: Client[] }>(`/clients?providerId=${providerId}&limit=500`);
+      const items = data?.items;
+      return Array.isArray(items) ? items : [];
     },
     enabled: !!providerId,
   });
+  const clients = Array.isArray(clientsResponse) ? clientsResponse : [];
 
   const { data: enrolled, isLoading: enrolledLoading } = useQuery({
     queryKey: ['wash-plans-enrolled', selectedPlanId, providerId],
@@ -79,7 +83,7 @@ export default function EnrollmentWizard() {
   });
 
   const enrolledClientIds = new Set((enrolled ?? []).map((e) => e.clientId || (e.client?.id ?? e.id)));
-  const notInPlan = (clients ?? []).filter((c) => !enrolledClientIds.has(c.id));
+  const notInPlan = clients.filter((c) => !enrolledClientIds.has(c.id));
   const inPlan = (enrolled ?? [])
     .map((e) => e.client ?? { id: e.clientId, name: '—', phone: '—' })
     .filter((c) => c.id);
@@ -100,7 +104,7 @@ export default function EnrollmentWizard() {
                 <SelectValue placeholder="— Select plan —" />
               </SelectTrigger>
               <SelectContent>
-                {(plans ?? []).map((p) => (
+                {plans.map((p) => (
                   <SelectItem key={p.id} value={p.id}>
                     {p.name} ({p.timesPerWeek}x/week, {p.location})
                   </SelectItem>

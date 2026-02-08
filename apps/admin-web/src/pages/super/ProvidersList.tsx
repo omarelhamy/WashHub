@@ -30,18 +30,21 @@ export default function ProvidersList() {
   if (isLoading) return <ListPageSkeleton rows={5} cols={6} />;
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">{t('pages.providersList.title')}</h1>
-        <Button asChild>
+    <div className="space-y-6 lg:space-y-8">
+      <header className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground">{t('pages.providersList.title')}</h1>
+          <p className="text-muted-foreground text-sm mt-2">{t('pages.providersList.allProviders')}</p>
+        </div>
+        <Button asChild size="lg" className="rounded-xl shrink-0">
           <Link to="/super/providers/new">
             <Plus className="mr-2 size-4" /> {t('pages.providersList.createProvider')}
           </Link>
         </Button>
-      </div>
+      </header>
       <Card>
         <CardHeader>
-          <CardTitle className="text-base">{t('pages.providersList.allProviders')}</CardTitle>
+          <CardTitle className="text-base font-semibold">{t('pages.providersList.allProviders')}</CardTitle>
         </CardHeader>
         <CardContent>
           <Table>
