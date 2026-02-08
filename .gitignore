@@ -1,0 +1,17 @@
+node_modules/
+dist/
+.env
+.env.local
+*.log
+.DS_Store
+.idea/
+.vscode/
+coverage/
+*.tgz
+
+# Flutter
+apps/client-app/.dart_tool/
+apps/client-app/.packages
+apps/client-app/build/
+apps/client-app/.flutter-plugins
+apps/client-app/.flutter-plugins-dependencies
