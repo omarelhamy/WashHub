@@ -37,14 +37,18 @@ export class CarsController {
   }
 
   @Get()
-  findByClient(
-    @Query('clientId') clientId: string,
-    @Query('providerId') providerId: string,
+  findAll(
     @Req() req: { user: JwtPayload },
+    @Query('clientId') clientId?: string,
+    @Query('providerId') providerId?: string,
+    @Query('page') page?: string,
+    @Query('limit') limit?: string,
   ) {
     const pid = providerId || getProviderIdFromUser(req.user);
-    if (!pid || !clientId) throw new Error('clientId and providerId required');
-    return this.service.findAllByClient(clientId, pid);
+    if (!pid) throw new Error('providerId required');
+    const pageNum = page ? parseInt(page, 10) : 1;
+    const limitNum = limit ? parseInt(limit, 10) : 20;
+    return this.service.findAllByProvider(pid, pageNum, limitNum, clientId || undefined);
   }
 
   @Get(':id')

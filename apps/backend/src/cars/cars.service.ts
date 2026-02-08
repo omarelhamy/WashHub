@@ -37,6 +37,25 @@ export class CarsService {
     return this.repo.find({ where: { clientId }, order: { createdAt: 'DESC' } });
   }
 
+  /** List all cars for a provider with optional client filter and pagination */
+  async findAllByProvider(
+    providerId: string,
+    page = 1,
+    limit = 20,
+    clientId?: string,
+  ): Promise<{ items: Car[]; total: number; page: number; limit: number }> {
+    const qb = this.repo
+      .createQueryBuilder('car')
+      .innerJoinAndSelect('car.client', 'client')
+      .where('client.providerId = :providerId', { providerId })
+      .orderBy('car.createdAt', 'DESC')
+      .skip((page - 1) * limit)
+      .take(limit);
+    if (clientId) qb.andWhere('car.clientId = :clientId', { clientId });
+    const [items, total] = await qb.getManyAndCount();
+    return { items, total, page, limit };
+  }
+
   async findOne(id: string, providerId: string) {
     const car = await this.repo.findOne({
       where: { id },

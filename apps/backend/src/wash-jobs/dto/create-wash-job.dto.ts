@@ -1,8 +1,9 @@
 import { IsString, IsOptional, IsDateString } from 'class-validator';
 
 export class CreateWashJobDto {
+  @IsOptional()
   @IsString()
-  providerId: string;
+  providerId?: string;
 
   @IsString()
   clientId: string;

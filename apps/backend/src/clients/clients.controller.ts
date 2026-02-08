@@ -41,6 +41,7 @@ export class ClientsController {
     @Query('providerId') providerId: string,
     @Query('page') page?: string,
     @Query('limit') limit?: string,
+    @Query('search') search?: string,
     @Req() req?: { user: JwtPayload },
   ) {
     const user = req?.user;
@@ -50,7 +51,7 @@ export class ClientsController {
       return this.service.findAllForSuperAdmin(pid || undefined, page ? parseInt(page, 10) : 1, limit ? parseInt(limit, 10) : 50);
     }
     if (!pid) throw new Error('providerId required');
-    return this.service.findAll(pid, page ? parseInt(page, 10) : 1, limit ? parseInt(limit, 10) : 20);
+    return this.service.findAll(pid, page ? parseInt(page, 10) : 1, limit ? parseInt(limit, 10) : 20, search);
   }
 
   @Get(':id')

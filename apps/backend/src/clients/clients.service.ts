@@ -21,13 +21,18 @@ export class ClientsService {
     return this.repo.save(client);
   }
 
-  async findAll(providerId: string, page = 1, limit = 20) {
-    const [items, total] = await this.repo.findAndCount({
-      where: { providerId },
-      skip: (page - 1) * limit,
-      take: limit,
-      order: { createdAt: 'DESC' },
-    });
+  async findAll(providerId: string, page = 1, limit = 20, search?: string) {
+    const qb = this.repo
+      .createQueryBuilder('c')
+      .where('c.providerId = :providerId', { providerId })
+      .orderBy('c.createdAt', 'DESC')
+      .skip((page - 1) * limit)
+      .take(limit);
+    if (search?.trim()) {
+      const term = `%${search.trim()}%`;
+      qb.andWhere('(c.name ILIKE :term OR c.phone ILIKE :term)', { term });
+    }
+    const [items, total] = await qb.getManyAndCount();
     return { items, total, page, limit };
   }
 

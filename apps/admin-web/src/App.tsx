@@ -20,6 +20,7 @@ import SettingsPage from './pages/super/SettingsPage';
 import ProviderDashboard from './pages/provider/ProviderDashboard';
 import ClientsList from './pages/provider/ClientsList';
 import CarsList from './pages/provider/CarsList';
+import EditCarPage from './pages/provider/EditCarPage';
 import WashJobsList from './pages/provider/WashJobsList';
 import WashPlansList from './pages/provider/WashPlansList';
 import EnrollmentWizard from './pages/provider/EnrollmentWizard';
@@ -64,6 +65,7 @@ export default function App() {
               <Route path="/provider/clients" element={<ClientsList />} />
               <Route path="/provider/clients/:id" element={<ClientDetailPage />} />
               <Route path="/provider/cars" element={<CarsList />} />
+              <Route path="/provider/cars/:id/edit" element={<EditCarPage />} />
               <Route path="/provider/wash-jobs" element={<WashJobsList />} />
               <Route path="/provider/wash-plans" element={<WashPlansList />} />
               <Route path="/provider/enrollment" element={<EnrollmentWizard />} />

@@ -13,6 +13,7 @@ import { Provider } from './provider.entity';
 import { Client } from './client.entity';
 import { Car } from './car.entity';
 import { WashStage } from './wash-stage.entity';
+import { WashJobComment } from './wash-job-comment.entity';
 
 export enum WashJobStatus {
   NOT_STARTED = 'NOT_STARTED',
@@ -71,4 +72,7 @@ export class WashJob {
 
   @OneToMany(() => WashStage, (stage) => stage.washJob)
   stages: WashStage[];
+
+  @OneToMany(() => WashJobComment, (c) => c.washJob)
+  comments: WashJobComment[];
 }

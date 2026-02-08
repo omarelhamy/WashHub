@@ -52,14 +52,15 @@ export default function ClientDetailPage() {
     enabled: !!id && !!providerId,
   });
 
-  const { data: cars = [] } = useQuery({
+  const { data: carsData } = useQuery({
     queryKey: ['cars', providerId, id],
     queryFn: async () => {
-      const { data } = await api.get<Car[]>(`/cars?providerId=${providerId}&clientId=${id}`);
-      return Array.isArray(data) ? data : [];
+      const { data } = await api.get<{ items: Car[] }>(`/cars?providerId=${providerId}&clientId=${id}&limit=100`);
+      return data;
     },
     enabled: !!id && !!providerId,
   });
+  const cars = carsData?.items ?? [];
 
   const { data: paymentsData } = useQuery({
     queryKey: ['payments', providerId, id],
