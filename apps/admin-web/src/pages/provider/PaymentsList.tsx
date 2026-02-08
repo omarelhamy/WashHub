@@ -65,9 +65,20 @@ export default function PaymentsList() {
       });
     },
     onSuccess: () => {
+      const clientIdForJobs = markPaidClientId;
+      const monthStr = `${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, '0')}`;
       setMarkPaidClientId('');
       setMarkPaidAmount('');
       queryClient.invalidateQueries({ queryKey: ['payments', providerId] });
+      if (clientIdForJobs && providerId) {
+        api
+          .post(`/wash-jobs/generate-month?providerId=${providerId}&month=${monthStr}&clientId=${clientIdForJobs}`)
+          .then(() => {
+            queryClient.invalidateQueries({ queryKey: ['wash-jobs'] });
+            queryClient.invalidateQueries({ queryKey: ['wash-jobs-calendar'] });
+          })
+          .catch(() => {});
+      }
     },
   });
 

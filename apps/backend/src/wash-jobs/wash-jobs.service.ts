@@ -42,6 +42,8 @@ export class WashJobsService {
     page = 1,
     limit = 20,
     date?: string,
+    dateFrom?: string,
+    dateTo?: string,
     sortBy: 'scheduledAt' | 'status' | 'clientName' | 'carPlate' = 'scheduledAt',
     sortOrder: 'asc' | 'desc' = 'desc',
   ) {
@@ -53,7 +55,11 @@ export class WashJobsService {
       .where('j.providerId = :providerId', { providerId })
       .skip((page - 1) * limit)
       .take(limit);
-    if (date) {
+    if (dateFrom && dateTo) {
+      const start = new Date(dateFrom + 'T00:00:00.000Z');
+      const end = new Date(dateTo + 'T23:59:59.999Z');
+      qb.andWhere('j.scheduledAt >= :rangeStart', { rangeStart: start }).andWhere('j.scheduledAt <= :rangeEnd', { rangeEnd: end });
+    } else if (date) {
       const dayStart = new Date(date + 'T00:00:00.000Z');
       const dayEnd = new Date(date + 'T23:59:59.999Z');
       qb.andWhere('j.scheduledAt >= :dayStart', { dayStart }).andWhere('j.scheduledAt <= :dayEnd', { dayEnd });
@@ -127,6 +133,97 @@ export class WashJobsService {
       }
     }
     return { created, skipped };
+  }
+
+  /**
+   * Generate wash jobs for a single day, scoped to a provider and optionally to one client.
+   * Used by generateMonthJobs and when a client is marked paid (generate that month for that client).
+   */
+  async generateDailyJobsForDateAndProvider(
+    providerId: string,
+    date: Date,
+    clientId?: string,
+  ): Promise<{ created: number; skipped: number }> {
+    const dateStr = date.toISOString().slice(0, 10);
+    const dayOfWeek = new Date(dateStr + 'T12:00:00.000Z').getDay();
+    const scheduledAt = new Date(dateStr + 'T08:00:00.000Z');
+    const dayStart = new Date(dateStr + 'T00:00:00.000Z');
+    const dayEnd = new Date(dateStr + 'T23:59:59.999Z');
+
+    const plans = await this.planRepo.find({
+      where: { providerId },
+    });
+    const plansForDay = plans.filter((p) => p.daysOfWeek.includes(dayOfWeek));
+    if (plansForDay.length === 0) return { created: 0, skipped: 0 };
+
+    const planIds = plansForDay.map((p) => p.id);
+    const enrollmentWhere: Record<string, unknown> = {
+      washPlanId: In(planIds),
+      status: ClientWashPlanStatus.ACTIVE,
+    };
+    if (clientId) enrollmentWhere.clientId = clientId;
+
+    const enrollments = await this.enrollmentRepo.find({
+      where: enrollmentWhere,
+      relations: ['washPlan'],
+    });
+
+    let created = 0;
+    let skipped = 0;
+    for (const enr of enrollments) {
+      const cars = await this.carRepo.find({ where: { clientId: enr.clientId } });
+      for (const car of cars) {
+        const existing = await this.repo
+          .createQueryBuilder('j')
+          .where('j.providerId = :providerId', { providerId })
+          .andWhere('j.clientId = :clientId', { clientId: enr.clientId })
+          .andWhere('j.carId = :carId', { carId: car.id })
+          .andWhere('j.scheduledAt >= :dayStart', { dayStart })
+          .andWhere('j.scheduledAt <= :dayEnd', { dayEnd })
+          .getOne();
+        if (existing) {
+          skipped++;
+          continue;
+        }
+        await this.repo.save(
+          this.repo.create({
+            providerId,
+            clientId: enr.clientId,
+            carId: car.id,
+            status: WashJobStatus.NOT_STARTED,
+            scheduledAt,
+          }),
+        );
+        created++;
+      }
+    }
+    return { created, skipped };
+  }
+
+  /**
+   * Generate wash jobs for every day in a month (YYYY-MM), for the provider and optionally for one client.
+   * After a client is marked paid, call this with that clientId and current month to create their month's jobs.
+   */
+  async generateMonthJobs(
+    providerId: string,
+    monthStr: string,
+    clientId?: string,
+  ): Promise<{ created: number; skipped: number }> {
+    const match = /^(\d{4})-(\d{2})$/.exec(monthStr);
+    if (!match) throw new Error('month must be YYYY-MM');
+    const year = parseInt(match[1], 10);
+    const month = parseInt(match[2], 10);
+    const lastDay = new Date(year, month, 0).getDate();
+
+    let totalCreated = 0;
+    let totalSkipped = 0;
+    for (let day = 1; day <= lastDay; day++) {
+      const date = new Date(Date.UTC(year, month - 1, day, 12, 0, 0, 0));
+      const result = await this.generateDailyJobsForDateAndProvider(providerId, date, clientId);
+      totalCreated += result.created;
+      totalSkipped += result.skipped;
+    }
+    return { created: totalCreated, skipped: totalSkipped };
   }
 
   async findOne(id: string, providerId: string) {

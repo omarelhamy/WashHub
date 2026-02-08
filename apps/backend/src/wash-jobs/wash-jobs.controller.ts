@@ -46,12 +46,28 @@ export class WashJobsController {
     return this.service.generateDailyJobsForDate(date);
   }
 
+  @Post('generate-month')
+  @Roles('SUPER_ADMIN', 'PROVIDER_ADMIN')
+  generateMonth(
+    @Query('month') monthStr: string,
+    @Query('clientId') clientId: string | undefined,
+    @Query('providerId') providerId: string,
+    @Req() req: { user: JwtPayload },
+  ) {
+    const pid = providerId || getProviderIdFromUser(req.user);
+    if (!pid) throw new Error('providerId required');
+    if (!monthStr || !/^\d{4}-\d{2}$/.test(monthStr)) throw new Error('month required (YYYY-MM)');
+    return this.service.generateMonthJobs(pid, monthStr, clientId || undefined);
+  }
+
   @Get()
   findAll(
     @Query('providerId') providerId: string,
     @Query('page') page?: string,
     @Query('limit') limit?: string,
     @Query('date') date?: string,
+    @Query('dateFrom') dateFrom?: string,
+    @Query('dateTo') dateTo?: string,
     @Query('sortBy') sortBy?: 'scheduledAt' | 'status' | 'clientName' | 'carPlate',
     @Query('sortOrder') sortOrder?: 'asc' | 'desc',
     @Req() req?: { user: JwtPayload },
@@ -65,6 +81,8 @@ export class WashJobsController {
       page ? parseInt(page, 10) : 1,
       limit ? parseInt(limit, 10) : 20,
       date,
+      dateFrom,
+      dateTo,
       validSortBy,
       validOrder,
     );
